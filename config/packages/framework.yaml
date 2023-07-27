@@ -18,6 +18,13 @@ framework:
     php_errors:
         log: true
 
+    http_client:
+        scoped_clients:
+            api-etablissements-publics.client:
+                base_uri: 'https://etablissements-publics.api.gouv.fr/v3/'
+                headers:
+                    Accept: 'application/json'
+
 when@test:
     framework:
         test: true

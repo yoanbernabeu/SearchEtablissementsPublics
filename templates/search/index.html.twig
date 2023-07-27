@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+		{{ form(form)}}
+
+
+			{% if etablissements is not null %}
+
+				{% if etablissements.features|length > 0 %}
+
+					<div class="overflow-hidden rounded-md bg-white shadow">
+						<ul role="list" class="divide-y divide-gray-200">
+							{% for etablissement in etablissements.features %}
+                                <li class="px-6 py-4">
+                                    {# Nom #}
+                                    <div class="flex items-center space-x-4">
+                                        {{ etablissement.properties.nom }}
+                                    </div>
+
+                                    {# Adresse #}
+                                    <div class="flex items-center space-x-4">
+                                        {% for adresse in etablissement.properties.adresses %}
+                                            {{ adresse.lignes[0] }}, {{ adresse.commune }}, {{ adresse.codePostal }}
+                                        {% endfor %}
+                                    </div>
+
+                                    {# Email #}
+                                    <div class="flex items-center space-x-4">
+                                        {{ etablissement.properties.email ?? 'Pas d\'email' }}
+                                    </div>
+
+                                    {# Telephone #}
+                                    <div class="flex items-center space-x-4">
+                                        {{ etablissement.properties.telephone ?? 'Pas de numéro de téléphone' }}
+                                    </div>
+
+                                    {# Horaires #}
+                                    {% if etablissement.properties.horaires is defined %}
+                                        <div class="flex items-center space-x-4">
+                                            {% for horaire in etablissement.properties.horaires %}
+                                                Du {{ horaire.du }} au {{ horaire.au }} :
+                                                {% for heure in horaire.heures %}
+                                                    de {{ heure.de }} à {{ heure.a }}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    
+
+                                    {# URL #}
+                                    <div class="flex items-center space-x-4">
+                                        <a href="{{ etablissement.properties.url ?? '' }}">Site web</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+						</ul>
+					</div>
+
+
+				{% else %}
+					Pas de résultat
+				{% endif %}
+
+
+			{% endif %}
+		</div>
+
+	{% endblock %}
